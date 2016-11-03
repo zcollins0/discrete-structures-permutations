@@ -11,11 +11,13 @@ def get_perm(lst, perm):
     if sz == 1:
         return lst[0]
     fact = factorial(sz-1)
+    if (perm >= fact*sz):
+        perm -= sz
     first = math.floor(perm/fact)
     lstnew = lst[:]
     lstnew.remove(lstnew[first])
-    if (perm >= sz - 1):
-        perm -= sz
+    if perm >= fact:
+        perm -= fact
     return str(lst[first]) + str(get_perm(lstnew, perm))
 
 def main():
