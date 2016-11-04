@@ -28,7 +28,7 @@ def get_perm(lst, perm):
     fact = factorial(sz-1)
     
     #If the permutation we're looking for is greater than the possible number of permutations
-    #then subtract the length of the list from the permutation number
+    #then subtract the possible number of permutaions from the permutation number
     if (perm >= fact*sz):
         perm -= fact*sz
         
@@ -42,21 +42,52 @@ def get_perm(lst, perm):
     
     #Here we remove the element we just used
     lstnew.remove(lstnew[first])
+    
+    #Here we subtract the number of permutations that start with same value from the permutation
+    #we're looking for, until perm falls within the first (n-1)! items. Since we are calling this function
+    #recursively, this scales the permutation to the smaller list.
     while (perm >= fact):
         perm -= fact
     return str(lst[first]) + str(get_perm(lstnew, perm))
 
 def main():
+    #Get user inputs
     sz = int(input("Enter the size of the list: "))
     perm = int(input("Enter the permutation number: "))
+    
+    #Calculate the maximum number of permutations and display an error message if the requested permutation
+    #is greater than the max
     maxperm = factorial(sz) - 1
     if perm > maxperm:
         print("The range of permutations for a list of size", sz, "is 0 to", maxperm)
         exit()
-
+    
+    #Build the list of 1 to n elements
     numlist = list(range(1,sz+1))
+    
+    #Call get_perm to get the requested permutation, and print the result
     permstr = get_perm(numlist, perm)
     print("Permutation number", perm, "is", permstr)
 
 if __name__ == "__main__":
     main()
+
+    
+    #Example runs:
+    #Enter the size of the list: 4
+    #Enter the permutation number: 6
+    #Permutation number 6 is 2134
+    
+    #Enter the size of the list: 4
+    #Enter the permutation number: 19
+    #Permutation number 19 is 4132
+    
+    #Enter the size of the list: 3
+    #Enter the permutation number: 4
+    #Permutation number 4 is 231
+    
+    #Discussion:
+    #The factorial function is the biggest contributor to the performance of this program.
+    #Because factorial(n) only goes through the for loop one time, this is complexity O(n). 
+    #This means that n is the quantity that the performance relies most on. Inside the get_perm() 
+    #function, we call factorial(n) n times. So program complexity is O(n^2).
