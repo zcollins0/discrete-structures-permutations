@@ -19,6 +19,7 @@ def factorial(n):
 def get_perm(lst, perm):
     #Get the length of the list that is being permuted
     sz = len(lst)
+
     #If it only contains 1 element, return that element
     if sz == 1:
         return lst[0]
@@ -27,11 +28,6 @@ def get_perm(lst, perm):
     #of permutations that start with the same value
     fact = factorial(sz-1)
     
-    #If the permutation we're looking for is greater than the possible number of permutations
-    #then subtract the possible number of permutaions from the permutation number
-    if (perm >= fact*sz):
-        perm -= fact*sz
-        
     #To determine the value to use, we take the floor of the permutation divided by the number
     #of permutations that begin with the same value. This gives us the index of the value to place.
     #For example, if we're looking for the 6th permutation of a list of length 4, then the first 
@@ -48,7 +44,7 @@ def get_perm(lst, perm):
     #recursively, this scales the permutation to the smaller list.
     while (perm >= fact):
         perm -= fact
-    return str(lst[first]) + str(get_perm(lstnew, perm))
+    return str(lst[first]) + " " + str(get_perm(lstnew, perm))
 
 def main():
     #Get user inputs
@@ -67,7 +63,7 @@ def main():
     
     #Call get_perm to get the requested permutation, and print the result
     permstr = get_perm(numlist, perm)
-    print("Permutation number", perm, "is", permstr)
+    print("Permutation number", perm, "is [", permstr,"]")
 
 if __name__ == "__main__":
     main()
@@ -76,15 +72,21 @@ if __name__ == "__main__":
     #Example runs:
     #Enter the size of the list: 4
     #Enter the permutation number: 6
-    #Permutation number 6 is 2134
+    #Permutation number 6 is [ 2 1 3 4 ]
     
     #Enter the size of the list: 4
     #Enter the permutation number: 19
-    #Permutation number 19 is 4132
+    #Permutation number 19 is [ 4 1 3 2 ]
     
     #Enter the size of the list: 3
     #Enter the permutation number: 4
-    #Permutation number 4 is 231
+    #Permutation number 4 is [ 2 3 1 ]
+
+    #Bonus question 2
+    #This program can handle lists of large sizes:
+    #Enter the size of the list: 20
+    #Enter the permutation number: 153
+    #Permutation number 153 is [ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 16 17 18 19 20 15 ]
     
     #Discussion:
     #The factorial function is the biggest contributor to the performance of this program.
